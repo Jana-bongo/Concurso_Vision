@@ -1,0 +1,55 @@
+-- Criar banco de dados
+CREATE DATABASE IF NOT EXISTS concurso_vision;
+USE concurso_vision;
+
+-- Tabela de usuários
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabela de concursos
+CREATE TABLE IF NOT EXISTS concursos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(200) NOT NULL,
+    orgao VARCHAR(150) NOT NULL,
+    vagas INT,
+    escolaridade VARCHAR(100),
+    status ENUM('disponivel', 'previsto', 'terminado') DEFAULT 'previsto',
+    link_edital TEXT,
+    data_inscricao_inicio DATE,
+    data_inscricao_fim DATE,
+    data_prova DATE,
+    descricao TEXT,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Inserir um usuário administrador padrão
+-- Senha: admin123 (MUDE ISSO depois de fazer login!)
+INSERT INTO usuarios (nome, email, senha, is_admin) 
+VALUES ('Administrador', 'admin@concursovision.com', 
+        'scrypt:32768:8:1$ksKxJYOkXKdF2Phr$b5c6d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9', 
+        TRUE);
+
+-- Inserir alguns concursos de exemplo
+INSERT INTO concursos (nome, orgao, vagas, escolaridade, status, link_edital, data_inscricao_inicio, data_inscricao_fim, data_prova, descricao) VALUES
+('Concurso Público para Técnico Administrativo', 'Prefeitura Municipal', 50, 'Ensino Médio', 'disponivel', 
+ 'https://exemplo.com/edital1.pdf', '2025-11-01', '2025-12-15', '2026-01-20',
+ 'Concurso para provimento de 50 vagas para o cargo de Técnico Administrativo.'),
+
+('Concurso TRF - Analista Judiciário', 'Tribunal Regional Federal', 30, 'Ensino Superior', 'previsto',
+ '', NULL, NULL, NULL,
+ 'Previsão de concurso para Analista Judiciário com 30 vagas.'),
+
+('Concurso Polícia Federal - Agente', 'Polícia Federal', 200, 'Ensino Superior', 'disponivel',
+ 'https://exemplo.com/edital-pf.pdf', '2025-10-15', '2025-11-30', '2026-01-10',
+ 'Concurso para provimento de 200 vagas para o cargo de Agente da Polícia Federal.'),
+
+('Concurso INSS - Técnico do Seguro Social', 'Instituto Nacional do Seguro Social', 1000, 'Ensino Médio', 'terminado',
+ 'https://exemplo.com/edital-inss.pdf', '2025-08-01', '2025-09-15', '2025-10-20',
+ 'Concurso finalizado para Técnico do Seguro Social.');

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Concurso - Concurso Vision{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <a href="{{ url_for('concurso_detalhes', id=concurso.id) }}" class="btn-back">← Voltar</a>
+    
+    <div class="form-card">
+        <h1>✏️ Editar Concurso</h1>
+        
+        <form method="POST" action="{{ url_for('editar_concurso', id=concurso.id) }}">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nome">Nome do Concurso *</label>
+                    <input type="text" id="nome" name="nome" required 
+                           value="{{ concurso.nome }}">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="orgao">Órgão *</label>
+                    <input type="text" id="orgao" name="orgao" required 
+                           value="{{ concurso.orgao }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="vagas">Número de Vagas</label>
+                    <input type="number" id="vagas" name="vagas" 
+                           value="{{ concurso.vagas if concurso.vagas else '' }}">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="escolaridade">Escolaridade Mínima</label>
+                    <select id="escolaridade" name="escolaridade">
+                        <option value="">Selecione...</option>
+                        <option value="Ensino Fundamental" {% if concurso.escolaridade == 'Ensino Fundamental' %}selected{% endif %}>Ensino Fundamental</option>
+                        <option value="Ensino Médio" {% if concurso.escolaridade == 'Ensino Médio' %}selected{% endif %}>Ensino Médio</option>
+                        <option value="Ensino Técnico" {% if concurso.escolaridade == 'Ensino Técnico' %}selected{% endif %}>Ensino Técnico</option>
+                        <option value="Ensino Superior" {% if concurso.escolaridade == 'Ensino Superior' %}selected{% endif %}>Ensino Superior</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="status">Status *</label>
+                    <select id="status" name="status" required>
+                        <option value="previsto" {% if concurso.status == 'previsto' %}selected{% endif %}>Previsto</option>
+                        <option value="disponivel" {% if concurso.status == 'disponivel' %}selected{% endif %}>Disponível</option>
+                        <option value="terminado" {% if concurso.status == 'terminado' %}selected{% endif %}>Encerrado</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="link_edital">Link do Edital</label>
+                    <input type="url" id="link_edital" name="link_edital" 
+                           value="{{ concurso.link_edital if concurso.link_edital else '' }}">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="data_inscricao_inicio">Início das Inscrições</label>
+                    <input type="date" id="data_inscricao_inicio" name="data_inscricao_inicio"
+                           value="{{ concurso.data_inscricao_inicio.strftime('%Y-%m-%d') if concurso.data_inscricao_inicio else '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="data_inscricao_fim">Fim das Inscrições</label>
+                    <input type="date" id="data_inscricao_fim" name="data_inscricao_fim"
+                           value="{{ concurso.data_inscricao_fim.strftime('%Y-%m-%d') if concurso.data_inscricao_fim else '' }}">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="data_prova">Data da Prova</label>
+                    <input type="date" id="data_prova" name="data_prova"
+                           value="{{ concurso.data_prova.strftime('%Y-%m-%d') if concurso.data_prova else '' }}">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" rows="5">{{ concurso.descricao if concurso.descricao else '' }}</textarea>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">💾 Salvar Alterações</button>
+                <a href="{{ url_for('concurso_detalhes', id=concurso.id) }}" class="btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Início - Concurso Vision{% endblock %}
+
+{% block content %}
+<div class="home-header">
+    <h1>Bem-vindo ao Concurso Vision!</h1>
+    <p>Acompanhe os concursos públicos disponíveis, previstos e encerrados.</p>
+</div>
+
+<!-- Concursos Disponíveis -->
+<section class="concursos-section">
+    <h2 class="section-title">🟢 Concursos Disponíveis</h2>
+    {% if disponiveis %}
+    <div class="concursos-grid">
+        {% for concurso in disponiveis %}
+        <div class="concurso-card disponivel">
+            <div class="concurso-header">
+                <h3>{{ concurso.nome }}</h3>
+                <span class="badge badge-disponivel">Disponível</span>
+            </div>
+            <div class="concurso-info">
+                <p><strong>Órgão:</strong> {{ concurso.orgao }}</p>
+                <p><strong>Vagas:</strong> {{ concurso.vagas }}</p>
+                <p><strong>Escolaridade:</strong> {{ concurso.escolaridade }}</p>
+                {% if concurso.data_inscricao_inicio %}
+                <p><strong>Inscrições:</strong> {{ concurso.data_inscricao_inicio.strftime('%d/%m/%Y') }} a {{ concurso.data_inscricao_fim.strftime('%d/%m/%Y') }}</p>
+                {% endif %}
+            </div>
+            <div class="concurso-actions">
+                <a href="{{ url_for('concurso_detalhes', id=concurso.id) }}" class="btn-view">Ver Detalhes</a>
+                {% if is_admin %}
+                <a href="{{ url_for('editar_concurso', id=concurso.id) }}" class="btn-edit">Editar</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-data">Nenhum concurso disponível no momento.</p>
+    {% endif %}
+</section>
+
+<!-- Concursos Previstos -->
+<section class="concursos-section">
+    <h2 class="section-title">🟡 Concursos Previstos</h2>
+    {% if previstos %}
+    <div class="concursos-grid">
+        {% for concurso in previstos %}
+        <div class="concurso-card previsto">
+            <div class="concurso-header">
+                <h3>{{ concurso.nome }}</h3>
+                <span class="badge badge-previsto">Previsto</span>
+            </div>
+            <div class="concurso-info">
+                <p><strong>Órgão:</strong> {{ concurso.orgao }}</p>
+                <p><strong>Vagas:</strong> {{ concurso.vagas if concurso.vagas else 'A definir' }}</p>
+                <p><strong>Escolaridade:</strong> {{ concurso.escolaridade if concurso.escolaridade else 'A definir' }}</p>
+            </div>
+            <div class="concurso-actions">
+                <a href="{{ url_for('concurso_detalhes', id=concurso.id) }}" class="btn-view">Ver Detalhes</a>
+                {% if is_admin %}
+                <a href="{{ url_for('editar_concurso', id=concurso.id) }}" class="btn-edit">Editar</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-data">Nenhum concurso previsto no momento.</p>
+    {% endif %}
+</section>
+
+<!-- Concursos Terminados -->
+<section class="concursos-section">
+    <h2 class="section-title">⚪ Concursos Encerrados</h2>
+    {% if terminados %}
+    <div class="concursos-grid">
+        {% for concurso in terminados %}
+        <div class="concurso-card terminado">
+            <div class="concurso-header">
+                <h3>{{ concurso.nome }}</h3>
+                <span class="badge badge-terminado">Encerrado</span>
+            </div>
+            <div class="concurso-info">
+                <p><strong>Órgão:</strong> {{ concurso.orgao }}</p>
+                <p><strong>Vagas:</strong> {{ concurso.vagas }}</p>
+                <p><strong>Escolaridade:</strong> {{ concurso.escolaridade }}</p>
+            </div>
+            <div class="concurso-actions">
+                <a href="{{ url_for('concurso_detalhes', id=concurso.id) }}" class="btn-view">Ver Detalhes</a>
+                {% if is_admin %}
+                <a href="{{ url_for('editar_concurso', id=concurso.id) }}" class="btn-edit">Editar</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-data">Nenhum concurso encerrado.</p>
+    {% endif %}
+</section>
+{% endblock %}

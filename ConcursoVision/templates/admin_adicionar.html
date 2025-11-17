@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Adicionar Concurso - Concurso Vision{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <a href="{{ url_for('home') }}" class="btn-back">← Voltar</a>
+    
+    <div class="form-card">
+        <h1>➕ Adicionar Novo Concurso</h1>
+        
+        <form method="POST" action="{{ url_for('adicionar_concurso') }}">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nome">Nome do Concurso *</label>
+                    <input type="text" id="nome" name="nome" required 
+                           placeholder="Ex: Concurso Público para Analista">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="orgao">Órgão *</label>
+                    <input type="text" id="orgao" name="orgao" required 
+                           placeholder="Ex: Prefeitura Municipal">
+                </div>
+                
+                <div class="form-group">
+                    <label for="vagas">Número de Vagas</label>
+                    <input type="number" id="vagas" name="vagas" 
+                           placeholder="Ex: 50">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="escolaridade">Escolaridade Mínima</label>
+                    <select id="escolaridade" name="escolaridade">
+                        <option value="">Selecione...</option>
+                        <option value="Ensino Fundamental">Ensino Fundamental</option>
+                        <option value="Ensino Médio">Ensino Médio</option>
+                        <option value="Ensino Técnico">Ensino Técnico</option>
+                        <option value="Ensino Superior">Ensino Superior</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="status">Status *</label>
+                    <select id="status" name="status" required>
+                        <option value="previsto">Previsto</option>
+                        <option value="disponivel">Disponível</option>
+                        <option value="terminado">Encerrado</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="link_edital">Link do Edital</label>
+                    <input type="url" id="link_edital" name="link_edital" 
+                           placeholder="https://exemplo.com/edital.pdf">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="data_inscricao_inicio">Início das Inscrições</label>
+                    <input type="date" id="data_inscricao_inicio" name="data_inscricao_inicio">
+                </div>
+                
+                <div class="form-group">
+                    <label for="data_inscricao_fim">Fim das Inscrições</label>
+                    <input type="date" id="data_inscricao_fim" name="data_inscricao_fim">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="data_prova">Data da Prova</label>
+                    <input type="date" id="data_prova" name="data_prova">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" rows="5" 
+                              placeholder="Descrição detalhada do concurso..."></textarea>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">✅ Adicionar Concurso</button>
+                <a href="{{ url_for('home') }}" class="btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

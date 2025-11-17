@@ -1,0 +1,19 @@
+from database import query_db
+
+def get_all_concursos():
+    """
+    Retorna todos os concursos do banco de dados
+    """
+    return query_db('SELECT * FROM concursos ORDER BY data_criacao DESC')
+
+def get_concursos_abertos():
+    """
+    Retorna apenas concursos com status 'Aberto'
+    """
+    return query_db('SELECT * FROM concursos WHERE status = "Aberto" ORDER BY data_criacao DESC')
+
+def get_concursos_previstos():
+    """
+    Retorna apenas concursos com status 'Previsto'
+    """
+    return query_db('SELECT * FROM concursos WHERE status = "Previsto" ORDER BY data_criacao DESC')

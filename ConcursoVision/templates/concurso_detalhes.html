@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}{{ concurso.nome }} - Concurso Vision{% endblock %}
+
+{% block content %}
+<div class="detalhes-container">
+    <a href="{{ url_for('home') }}" class="btn-back">← Voltar</a>
+    
+    <div class="detalhes-card">
+        <div class="detalhes-header">
+            <h1>{{ concurso.nome }}</h1>
+            {% if concurso.status == 'disponivel' %}
+            <span class="badge badge-disponivel">Disponível</span>
+            {% elif concurso.status == 'previsto' %}
+            <span class="badge badge-previsto">Previsto</span>
+            {% else %}
+            <span class="badge badge-terminado">Encerrado</span>
+            {% endif %}
+        </div>
+        
+        <div class="detalhes-content">
+            <div class="info-row">
+                <div class="info-item">
+                    <strong>🏛️ Órgão:</strong>
+                    <p>{{ concurso.orgao }}</p>
+                </div>
+                
+                <div class="info-item">
+                    <strong>👥 Vagas:</strong>
+                    <p>{{ concurso.vagas if concurso.vagas else 'A definir' }}</p>
+                </div>
+            </div>
+            
+            <div class="info-row">
+                <div class="info-item">
+                    <strong>🎓 Escolaridade:</strong>
+                    <p>{{ concurso.escolaridade if concurso.escolaridade else 'A definir' }}</p>
+                </div>
+                
+                <div class="info-item">
+                    <strong>📅 Status:</strong>
+                    <p>{{ concurso.status.capitalize() }}</p>
+                </div>
+            </div>
+            
+            {% if concurso.data_inscricao_inicio %}
+            <div class="info-row">
+                <div class="info-item">
+                    <strong>📝 Período de Inscrições:</strong>
+                    <p>{{ concurso.data_inscricao_inicio.strftime('%d/%m/%Y') }} a {{ concurso.data_inscricao_fim.strftime('%d/%m/%Y') }}</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if concurso.data_prova %}
+            <div class="info-row">
+                <div class="info-item">
+                    <strong>📋 Data da Prova:</strong>
+                    <p>{{ concurso.data_prova.strftime('%d/%m/%Y') }}</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if concurso.descricao %}
+            <div class="info-full">
+                <strong>📄 Descrição:</strong>
+                <p>{{ concurso.descricao }}</p>
+            </div>
+            {% endif %}
+            
+            {% if concurso.link_edital %}
+            <div class="edital-section">
+                <a href="{{ concurso.link_edital }}" target="_blank" class="btn-edital">
+                    📑 Acessar Edital Completo
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        
+        {% if is_admin %}
+        <div class="admin-actions">
+            <a href="{{ url_for('editar_concurso', id=concurso.id) }}" class="btn-edit">✏️ Editar Concurso</a>
+            <a href="{{ url_for('deletar_concurso', id=concurso.id) }}" 
+               class="btn-delete" 
+               onclick="return confirm('Tem certeza que deseja deletar este concurso?')">
+                🗑️ Deletar Concurso
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
